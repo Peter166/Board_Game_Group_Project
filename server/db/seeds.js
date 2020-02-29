@@ -48,7 +48,7 @@ db.dungeon.insertMany([
     'name': 'monsterCards',
     'cards': [
       {
-        'name': 'Small goblin',
+        'name': 'Small Goblin',
         'strength': 1,
         'weakness': 'Torch',
         'img': 'images/SmallGoblin.jpeg'

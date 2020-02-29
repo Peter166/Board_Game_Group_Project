@@ -5,21 +5,24 @@
       <div class="leftpane">
         <h1>Player 1 + 3 Area</h1>
         <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
-        </div>
+      </div>
       <div class="middlepane">Dungeon Area
-      <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
-      <dungeon-card class="dungeoncards" v-for="(dungeon, indexx) in dungeonCards" :key="indexx" :dungeon="dungeon"/>
-      <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
+        <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
+        <dungeon-card class="dungeoncards" v-for="(dungeon, indexx) in dungeonCards" :key="indexx" :dungeon="dungeon"/>
+        <div class="alignMonsters">
+          <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
+          <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
+        </div>
 
-      <img width="300" src="../assets/images/RandomCards.jpeg" />
+        <img width="300" src="../assets/images/RandomCards.jpeg" />
 
-<ul style="list-style-type:none;">
-  <li><button class="myButton" type="button" name="button">Take a Monster</button></li>
-  <li><button class="myButton" type="button" name="button">Add Monster to Dungeon</button></li>
-  <li><button class="myButton" type="button" name="button">Discard Monster (Sacrifice Hero Item)</button></li>
-  <li><button class="myButton" type="button" name="button">Pass</button></li>
-  <li><button class="myButton" type="button" name="button">Next Player</button></li>
-</ul>
+        <ul style="list-style-type:none;">
+          <li><button class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
+          <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
+          <li><button class="myButton" type="button" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
+          <li><button class="myButton" type="button" name="button">Pass</button></li>
+          <li><button class="myButton" type="button" name="button">Next Player</button></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+import PickedMonster from "./PickedMonster.vue";
 import playersArray from "./Player.vue";
 import GameService from "../services/GameService.js";
 import dungeonCard from "./DungeonCard.vue";
@@ -40,7 +44,10 @@ export default {
       heroCards: null,
       monsterCards: null,
       playersArray: null,
-      dungeonCards: [{'name':''}]
+      dungeonCards: [],
+      pickedMonster: null,
+      selectedHero: null,
+      monsterWasPicked: false
 
     }
   },
@@ -48,7 +55,9 @@ export default {
     'hero-card': heroCard,
     'monster-card': monsterCard,
     'dungeon-card':dungeonCard,
-    'player': playersArray
+    'player': playersArray,
+    'picked-monster': PickedMonster,
+
 
   },
   mounted(){
@@ -58,6 +67,39 @@ export default {
       this.monsterCards = game[2].cards
       this.playersArray = game[1].players
     })
+
+    eventBus.$on('selected-hero', (hero)=> {
+      this.selectedHero = hero;
+      let index =this.heroCards.indexOf(hero)
+      return this.heroCards.splice(index, 1)
+
+    })
+
+  },
+  methods:{
+    pickMonster(){
+      if(this.pickedMonster == null){
+        let  array =  this.monsterCards
+        let result =array[Math.floor(Math.random()*array.length)];
+        this.pickedMonster = result
+        let index = this.monsterCards.indexOf(result)
+        this.monsterCards.splice(index, 1)
+        return this.monsterWasPicked = true
+      }
+    },
+
+    addToDungeon(){
+    let result =  this.dungeonCards.push(this.pickedMonster)
+    this.pickedMonster = []
+
+    },
+
+    discardMonster(){
+      if(this.monsterWasPicked === true){
+      this.pickedMonster = []
+     }
+    }
+
 
 
   }
@@ -82,20 +124,20 @@ body, html {
 }
 
 .leftpane {
-    width: 30%;
-    height: 100%;
-    float: left;
-    background-color: darkgrey;
-    background-size: cover;
-    border-right: black 3px;
+  width: 30%;
+  height: 100%;
+  float: left;
+  background-color: darkgrey;
+  background-size: cover;
+  border-right: black 3px;
 }
 
 .middlepane {
-    width: 70%;
-    height: 100%;
-    float: left;
-    background-image: url('https://ak9.picdn.net/shutterstock/videos/13298939/thumb/1.jpg');
-    border-collapse: collapse;
+  width: 70%;
+  height: 100%;
+  float: left;
+  background-image: url('https://ak9.picdn.net/shutterstock/videos/13298939/thumb/1.jpg');
+  border-collapse: collapse;
 }
 
 .herocards{
@@ -108,7 +150,58 @@ body, html {
   text-align: center;
 
 }
-.monstercards{
+
+.dungeoncards{
+  background-color: black;
+  color: white;
+  font-family: fantasy;
+  text-align: center;
+  border: 3px solid #8AC007;
+}
+
+.myButton {
+  box-shadow: 0px 1px 0px 0px #1c1b18;
+  background:linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+  background-color:#eae0c2;
+  border-radius:15px;
+  border:2px solid #333029;
+  /* display:inline-block; */
+  cursor:pointer;
+  color:#505739;
+  font-family:Arial;
+  font-size:14px;
+  font-weight:bold;
+  padding:12px 16px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+  text-align: right;
+}
+.myButton:hover {
+  background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+  background-color:#ccc2a6;
+}
+.myButton:active {
+  position:relative;
+  top:1px;
+}
+/* .pickedMonster{
+  border-style: double;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+} */
+
+.alignMonsters{
+  position: fixed;
+  right: 100px;
+  top: 300px;
+}
+
+
+</style>
+
+
+/* .monstercards{
   /* background-color: lightblue; */
   font-family: fantasy;
   display: inline-grid;
@@ -118,42 +211,4 @@ body, html {
   bottom: 10px;
   /* border: 3px solid #8AC007; */
   text-align: center;
-}
-.dungeoncards{
-  background-color: black;
-  color: white;
-  font-family: fantasy;
-  text-align: center;
-    border: 3px solid #8AC007;
-}
-
-.myButton {
-	box-shadow: 0px 1px 0px 0px #1c1b18;
-	background:linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
-	background-color:#eae0c2;
-	border-radius:15px;
-	border:2px solid #333029;
-	/* display:inline-block; */
-	cursor:pointer;
-	color:#505739;
-	font-family:Arial;
-	font-size:14px;
-	font-weight:bold;
-	padding:12px 16px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-  text-align: right;
-}
-.myButton:hover {
-	background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
-	background-color:#ccc2a6;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-
-
-
-</style>
+} */
