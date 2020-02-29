@@ -6,7 +6,7 @@
         <h1>Player 1 + 3 Area</h1></div>
       <div class="middlepane">Dungeon Area
       <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
-      <dungeon-card class="dungeoncards" v-for="(dungeon, index) in dungeonCards" :key="index" :dungeon="dungeon"/>
+      <dungeon-card class="dungeoncards" v-for="(dungeon, indexx) in dungeonCards" :key="indexx" :dungeon="dungeon"/>
       <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
       </div>
     </div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import playersArray from "./Player.vue";
 import GameService from "../services/GameService.js";
 import dungeonCard from "./DungeonCard.vue";
 import monsterCard from "./MonsterCard.vue";
@@ -24,9 +25,9 @@ export default {
   name: 'game-grid',
   data(){
     return{
-      fromServer: null,
       heroCards: null,
       monsterCards: null,
+      playersArray: null,
       dungeonCards: {name:'HIDDEN CARD'}
 
     }
@@ -34,14 +35,16 @@ export default {
   components: {
     'hero-card': heroCard,
     'monster-card': monsterCard,
-    'dungeon-card':dungeonCard
+    'dungeon-card':dungeonCard,
+    'player': playersArray
 
   },
   mounted(){
 
     GameService.getGame()
     .then(game => {this.heroCards = game[0].cards
-      this.monsterCards = game[1].cards
+      this.monsterCards = game[2].cards
+      this.playersArray = game[1].players
     })
 
 

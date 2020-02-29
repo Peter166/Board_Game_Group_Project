@@ -37,6 +37,13 @@ db.dungeon.insertMany([
       },
     ]
   },
+  {'name': 'playersArray',
+  'players': [
+    {'name': 'Peter'},
+    {'name': 'Bob'}
+  ]
+
+  },
   {
     'name': 'monsterCards',
     'cards': [
