@@ -3,11 +3,24 @@
 
     <div class="container">
       <div class="leftpane">
-        <h1>Player 1 + 3 Area</h1></div>
+        <h1>Player 1 + 3 Area</h1>
+        <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
+        </div>
       <div class="middlepane">Dungeon Area
       <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
       <dungeon-card class="dungeoncards" v-for="(dungeon, indexx) in dungeonCards" :key="indexx" :dungeon="dungeon"/>
       <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
+
+      <img width="300" src="../assets/images/RandomCards.jpeg" />
+
+<button type="button" name="button">BUTTON</button>
+<button type="button" name="button">BUTTON</button>
+<button type="button" name="button">BUTTON</button>
+<button type="button" name="button">BUTTON</button>
+<button type="button" name="button">BUTTON</button>
+
+
+
       </div>
     </div>
   </div>
@@ -28,7 +41,7 @@ export default {
       heroCards: null,
       monsterCards: null,
       playersArray: null,
-      dungeonCards: {name:'HIDDEN CARD'}
+      dungeonCards: [{'name':''}]
 
     }
   },
@@ -112,5 +125,6 @@ body, html {
   color: white;
   font-family: fantasy;
   text-align: center;
+    border: 3px solid #8AC007;
 }
 </style>

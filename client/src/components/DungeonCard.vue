@@ -2,7 +2,7 @@
   <div >
 
     <h1 v-if="dungeon.name">{{dungeon.name}}</h1>
-
+  <img width="300" src="../assets/images/DungeonCard.jpeg" />
     <!-- <p>:src="img/profile/${item.photo}"</p> -->
     <!-- <img :src="'./asserts/' + `${dungeon.img}`"> -->
       <!-- <img  v-bind:src="dungeon.img" width="20"> -->
