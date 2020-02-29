@@ -13,14 +13,13 @@
 
       <img width="300" src="../assets/images/RandomCards.jpeg" />
 
-<button type="button" name="button">BUTTON</button>
-<button type="button" name="button">BUTTON</button>
-<button type="button" name="button">BUTTON</button>
-<button type="button" name="button">BUTTON</button>
-<button type="button" name="button">BUTTON</button>
-
-
-
+<ul style="list-style-type:none;">
+  <li><button class="myButton" type="button" name="button">Take a Monster</button></li>
+  <li><button class="myButton" type="button" name="button">Add Monster to Dungeon</button></li>
+  <li><button class="myButton" type="button" name="button">Discard Monster (Sacrifice Hero Item)</button></li>
+  <li><button class="myButton" type="button" name="button">Pass</button></li>
+  <li><button class="myButton" type="button" name="button">Next Player</button></li>
+</ul>
       </div>
     </div>
   </div>
@@ -127,4 +126,34 @@ body, html {
   text-align: center;
     border: 3px solid #8AC007;
 }
+
+.myButton {
+	box-shadow: 0px 1px 0px 0px #1c1b18;
+	background:linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+	background-color:#eae0c2;
+	border-radius:15px;
+	border:2px solid #333029;
+	/* display:inline-block; */
+	cursor:pointer;
+	color:#505739;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:12px 16px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+  text-align: right;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+	background-color:#ccc2a6;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+
+
 </style>
