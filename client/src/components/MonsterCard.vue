@@ -10,6 +10,9 @@
     <!-- <img v-if="monster.img" width="100" :src='require(`../assets/${monster.img}`)'/> -->
   </div>
 
+
+
+
 </template>
 
 <script>
