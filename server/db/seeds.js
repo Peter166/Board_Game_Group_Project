@@ -23,16 +23,25 @@ db.dungeon.insertMany([
       {
         'name': 'Vorpal Axe',
         'type': 'Vorpal Axe',
+        'hitpoints': 0,
         'img': 'images/VorpalAxe.jpeg'
       },
       {
         'name': 'Healing Potion',
         'type': 'Healing Potion',
+        'hitpoints': 0,
         'img': 'images/HealingPotion.jpeg'
+      },
+      {
+        'name': 'Torch',
+        'type': 'Torch',
+        'hitpoints': 0,
+        'img': 'images/Torch.jpeg'
       },
       {
         'name': 'War Hammer',
         'type': 'War Hammer',
+        'hitpoints': 0,
         'img': 'images/WarHammer.jpeg'
       },
     ]

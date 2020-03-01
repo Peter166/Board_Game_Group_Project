@@ -14,6 +14,8 @@
         <div class="dungeoncards">
           <dungeon-card  />
           <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
+          <dungeon-display v-for="(monster, index1) in dungeonCards" :key="index1" :dungeonsc="dungeonsc"/>
+          <li><button class="myButton" type="button" v-if="this.fightStarted" v-on:click="fightMonster">Fight Monster</button></li>
         </div>
 
         <div class="alignMonsters">
@@ -43,6 +45,7 @@ import GameService from "../services/GameService.js";
 import dungeonCard from "./DungeonCard.vue";
 import monsterCard from "./MonsterCard.vue";
 import heroCard from "./HeroCard.vue";
+import DungeonDisplay from "./DungeonDisplay.vue"
 import {eventBus} from '../main.js';
 export default {
   name: 'game-grid',
@@ -61,7 +64,9 @@ export default {
       gameStarted: false,
       activePlayer: null,
       passedPlayers: [],
-      totalHealth: 0
+      totalHealth: 0,
+      fightStarted: false,
+      weapons: []
     }
   },
   components: {
@@ -70,7 +75,7 @@ export default {
     'dungeon-card':dungeonCard,
     'player': playersArray,
     'picked-monster': PickedMonster,
-
+    'dungeon-display': DungeonDisplay,
 
   },
   mounted(){
@@ -109,6 +114,10 @@ export default {
       }
     },
 
+    fightMonster(){
+
+    },
+
     addToDungeon(){
       if(this.monsterWasAdded === false && this.monsterWasPicked === true && this.discardMonsterActivated == false){
         let result =  this.dungeonCards.push(this.pickedMonster)
@@ -140,27 +149,24 @@ export default {
 
     fight(){
       for (let hero of this.heroCards){
-        const totalHealth = 0
-
-          hero.hitpoints += totalHealth
-        
-        return totalHealth = this.totalHealth
-
-
-
-
-       // hero.hitpoints.parseInt() += totalHealth
-       //  return this.totalHealth
+        let points = hero.hitpoints
+      this.totalHealth += points
+      let weapon = hero.type
+      this.weapons.push(weapon)
       }
     },
 
     playerPass(){
+      if (this.playersArray.length = 1 ){
+        this.fight()
+      } else {
       this.resetBoard()
       let player = this.activePlayer
       let index = this.playersArray.indexOf(player)
       this.playersArray.splice(index, 1)
       this.passedPlayers.push(player)
       this.activePlayer = this.playersArray[0]
+     }
     },
     nextPlayer(){
       if(this.playersArray.length > 1){
