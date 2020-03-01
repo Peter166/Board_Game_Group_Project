@@ -6,9 +6,13 @@
         <h1>Player 1 + 3 Area</h1>
         <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
       </div>
-      <div class="middlepane">Dungeon Area
+      <div class="middlepane">
         <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
-        <dungeon-card class="dungeoncards" v-for="(dungeon, indexx) in dungeonCards" :key="indexx" :dungeon="dungeon"/>
+        <div class="dungeoncards">
+          <dungeon-card  />
+          <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
+        </div>
+
         <div class="alignMonsters">
           <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
           <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
@@ -47,7 +51,10 @@ export default {
       dungeonCards: [],
       pickedMonster: null,
       selectedHero: null,
-      monsterWasPicked: false
+      monsterWasPicked: false,
+      monsterWasAdded: false,
+      discardMonsterActivated: false,
+      heroToDelete: null
 
     }
   },
@@ -75,6 +82,14 @@ export default {
 
     })
 
+    eventBus.$on('hero-to-delete', (hero)=> {
+      debugger;
+      this.heroToDelete = hero;
+      let index = this.heroToDelete.indexOf(hero)
+      return this.heroToDelete.splice(index, 1)
+
+    })
+
   },
   methods:{
     pickMonster(){
@@ -89,15 +104,18 @@ export default {
     },
 
     addToDungeon(){
-    let result =  this.dungeonCards.push(this.pickedMonster)
-    this.pickedMonster = []
-
+      if(this.monsterWasAdded == false){
+        let result =  this.dungeonCards.push(this.pickedMonster)
+        this.pickedMonster = []
+        return this.monsterWasAdded = true
+      }
     },
 
     discardMonster(){
       if(this.monsterWasPicked === true){
-      this.pickedMonster = []
-     }
+        this.pickedMonster = []
+        this.discardMonsterActivated = true
+      }
     }
 
 
@@ -143,7 +161,7 @@ body, html {
 .herocards{
   /* background-color: darkred; */
   font-family: fantasy;
-  display:inline-flex;
+  display: inline-block;
   padding-right: 3px;
   padding-left: 3px;
   /* border: 3px solid#8AC007; */
@@ -185,10 +203,10 @@ body, html {
   top:1px;
 }
 /* .pickedMonster{
-  border-style: double;
-  position: fixed;
-  right: 20px;
-  top: 20px;
+border-style: double;
+position: fixed;
+right: 20px;
+top: 20px;
 } */
 
 .alignMonsters{
