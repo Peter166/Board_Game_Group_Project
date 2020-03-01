@@ -5,7 +5,8 @@
     <!-- <h5 v-if="hero.type">{{hero.type}}</h5> -->
     <!-- <h5 v-if="hero.hitpoints">Hitpoints: {{hero.hitpoints}}</h5> -->
     <form class="hero" method="post">
-    <img v-on:click="handleClick"  type="button" v-if="this.hero.name != 'Barbarian'" width="100" :src='require(`../assets/${hero.img}`)'/>
+      <button v-on:click="handleClickImg" type="button" class="button"><img  v-if="this.hero.name != 'Barbarian'" width="100" :src='require(`../assets/${hero.img}`)'/></button>
+
     <img  v-if="this.hero.name === 'Barbarian'" width="150" :src='require(`../assets/${hero.img}`)'/>
     <div v-if="this.discardMonsterActivated">
 
@@ -33,7 +34,7 @@ export default {
     handleClick: function(){
       eventBus.$emit('selected-hero',this.hero)
     },
-    handleClick: function(){
+    handleClickImg: function(){
       eventBus.$emit('hero-to-delete',this.hero)
     }
   }
@@ -41,7 +42,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+.button{
+  padding: 0;
+  border: none;
+  background: none;
+}
 .hero {
   display: inline-block;
 }

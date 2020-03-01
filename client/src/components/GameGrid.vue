@@ -83,11 +83,11 @@ export default {
     })
 
     eventBus.$on('hero-to-delete', (hero)=> {
-      debugger;
-      this.heroToDelete = hero;
-      let index = this.heroToDelete.indexOf(hero)
-      return this.heroToDelete.splice(index, 1)
-
+      if( this.heroToDelete === null && this.monsterWasPicked === true && this.discardMonsterActivated == true){
+        this.heroToDelete = hero;
+        let index = this.heroCards.indexOf(hero)
+        return this.heroCards.splice(index, 1)
+      }
     })
 
   },
