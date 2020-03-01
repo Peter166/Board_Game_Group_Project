@@ -104,7 +104,7 @@ export default {
     },
 
     addToDungeon(){
-      if(this.monsterWasAdded == false){
+      if(this.monsterWasAdded === false && this.monsterWasPicked === true && this.discardMonsterActivated == false){
         let result =  this.dungeonCards.push(this.pickedMonster)
         this.pickedMonster = []
         return this.monsterWasAdded = true
