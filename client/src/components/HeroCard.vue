@@ -1,5 +1,5 @@
 <template lang="html">
-  <div >
+  <div class="hero-display">
 
     <!-- <h3>{{hero.name}}</h3> -->
     <!-- <h5 v-if="hero.type">{{hero.type}}</h5> -->

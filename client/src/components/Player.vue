@@ -1,7 +1,10 @@
 <template lang="html">
-  <div >
-
-    <h1>{{player.name}}</h1>
+  <div class="main" >
+      <h1>{{player.name}}</h1>
+      <p>Lives: {{player.life}}</p>
+      <p>Wins: {{player.win}}</p>
+      <p>Passed Status: {{player.pass}}</p>
+    <hr>
     <!-- <h5 v-if="player.type">{{player.type}}</h5> -->
     <!-- <h5 v-if="player.hitpoints">Hitpoints: {{player.hitpoints}}</h5> -->
     <!-- <img v-if="player.img" width="100" :src='require(`../assets/${player.img}`)'/> -->
@@ -23,5 +26,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+.main {
+  background-image: url('https://i.pinimg.com/originals/ae/0f/ed/ae0fedf47b5f90534236602c64d541ef.png');
+  color: white
+}
 
 </style>

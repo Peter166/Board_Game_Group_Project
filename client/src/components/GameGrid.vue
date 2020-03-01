@@ -1,10 +1,13 @@
 <template lang="html">
   <div>
+    <button class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
+    <div class="start-game"  v-if="gameStarted">
+
 
     <div class="container">
-      <div class="leftpane">
-        <h1>Player 1 + 3 Area</h1>
+      <div class="leftpane" >
         <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
+        <h1 class="active-player-display">its {{this.activePlayer.name}}'s turn</h1>
       </div>
       <div class="middlepane">
         <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
@@ -24,13 +27,13 @@
           <li><button class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
           <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
           <li><button class="myButton" type="button" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
-          <li><button class="myButton" type="button" name="button">Pass</button></li>
-          <li><button class="myButton" type="button" name="button">Next Player</button></li>
+          <li><button class="myButton" type="button" v-on:click="playerPass">Pass</button></li>
+          <li><button class="myButton" type="button" v-on:click="nextPlayer">Next Player</button></li>
         </ul>
       </div>
     </div>
   </div>
-
+</div>
 </template>
 
 <script>
@@ -54,8 +57,11 @@ export default {
       monsterWasPicked: false,
       monsterWasAdded: false,
       discardMonsterActivated: false,
-      heroToDelete: null
-
+      heroToDelete: null,
+      gameStarted: false,
+      activePlayer: null,
+      passedPlayers: [],
+      totalHealth: 0
     }
   },
   components: {
@@ -116,11 +122,61 @@ export default {
         this.pickedMonster = []
         this.discardMonsterActivated = true
       }
+    },
+
+    startGame(){
+      this.activePlayer = this.playersArray[0]
+      this.gameStarted = true
+    },
+
+    resetBoard(){
+      this.pickedMonster = null,
+      this.selectedHero = null,
+      this.monsterWasPicked = false,
+      this.monsterWasAdded = false,
+      this.discardMonsterActivated = false,
+      this.heroToDelete = null
+    },
+
+    fight(){
+      for (let hero of this.heroCards){
+        const totalHealth = 0
+
+          hero.hitpoints += totalHealth
+        
+        return totalHealth = this.totalHealth
+
+
+
+
+       // hero.hitpoints.parseInt() += totalHealth
+       //  return this.totalHealth
+      }
+    },
+
+    playerPass(){
+      this.resetBoard()
+      let player = this.activePlayer
+      let index = this.playersArray.indexOf(player)
+      this.playersArray.splice(index, 1)
+      this.passedPlayers.push(player)
+      this.activePlayer = this.playersArray[0]
+    },
+    nextPlayer(){
+      if(this.playersArray.length > 1){
+      this.resetBoard()
+      let player = this.activePlayer
+      let index = this.playersArray.indexOf(player)
+      this.playersArray.splice(index, 1)
+      this.passedPlayers.push(player)
+      this.activePlayer = this.playersArray[0]
+      this.playersArray.push(player)
+    } else {
+     this.fight()
     }
-
-
-
   }
+}
+
 
 
 
@@ -147,7 +203,6 @@ body, html {
   float: left;
   background-color: darkgrey;
   background-size: cover;
-  border-right: black 3px;
 }
 
 .middlepane {
@@ -159,12 +214,10 @@ body, html {
 }
 
 .herocards{
-  /* background-color: darkred; */
   font-family: fantasy;
   display: inline-block;
   padding-right: 3px;
   padding-left: 3px;
-  /* border: 3px solid#8AC007; */
   text-align: center;
 
 }
@@ -183,7 +236,6 @@ body, html {
   background-color:#eae0c2;
   border-radius:15px;
   border:2px solid #333029;
-  /* display:inline-block; */
   cursor:pointer;
   color:#505739;
   font-family:Arial;
@@ -202,12 +254,6 @@ body, html {
   position:relative;
   top:1px;
 }
-/* .pickedMonster{
-border-style: double;
-position: fixed;
-right: 20px;
-top: 20px;
-} */
 
 .alignMonsters{
   position: fixed;
@@ -215,18 +261,9 @@ top: 20px;
   top: 300px;
 }
 
+.active-player-display {
+  font-family: fantasy;
+  background-color: red;
+}
 
 </style>
-
-
-/* .monstercards{
-  /* background-color: lightblue; */
-  font-family: fantasy;
-  display: inline-grid;
-  padding-right: 5px;
-  padding-left: 5px;
-  position:static;
-  bottom: 10px;
-  /* border: 3px solid #8AC007; */
-  text-align: center;
-} */
