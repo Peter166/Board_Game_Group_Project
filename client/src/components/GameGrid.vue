@@ -11,17 +11,18 @@
         </div>
         <div class="middlepane">
           <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
-          <div class="fightdungeon">
+          <div>
 
             <div class="dungeoncards">
 
               <dungeon-card  />
               <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
-              <dungeon-display v-for="(monster, index1) in dungeonCards" :key="index1" :dungeonsc="dungeonsc"/>
-              <li><button class="myButton" type="button" v-if="this.fightStarted" v-on:click="fightMonster">Fight Monster</button></li>
+
+              <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
+              <button class="myButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster">Fight Monster</button>
             </div>
 
-            <div class="alignMonsters">
+            <div   class="alignMonsters">
               <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
               <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
             </div>
@@ -70,7 +71,9 @@ export default {
       passedPlayers: [],
       totalHealth: 0,
       fightStarted: false,
-      weapons: []
+      weapons: [],
+      dungeonsc: []
+
     }
   },
   components: {
@@ -152,19 +155,14 @@ export default {
     },
 
     fight(){
+      this.fightStarted = true
       for (let hero of this.heroCards){
         let points = hero.hitpoints
         this.totalHealth += points
         let weapon = hero.type
         this.weapons.push(weapon)
         const monster = this.dungeonCards[0]
-        if (this.weapons.includes(monster.weakness)){
-          let index = this.dungeonCards.indexOf(monster)
-          this.dungeonCards.splice(index, 1)
-        }
-
-
-
+        this.dungeonsc = monster
       }
     },
 
@@ -219,10 +217,7 @@ body, html {
   height: 100%;
   margin: 0;
 }
-.fightdungeon{
-  background-color: red;
-  position: relative;
-}
+
 .container {
   width: 100%;
   height: 100%;

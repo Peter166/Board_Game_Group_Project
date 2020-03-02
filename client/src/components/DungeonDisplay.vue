@@ -1,6 +1,6 @@
 <template lang="html">
   <div >
- <img class="picked" v-if="pickedMonster.img" width="300" :src='require(`../assets/${pickedMonster.img}`)'/>
+ <img class="picked" v-if="dungeonsc.img" width="300" :src='require(`../assets/${dungeonsc.img}`)'/>
   </div>
 
 
