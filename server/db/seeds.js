@@ -135,16 +135,19 @@ db.dungeon.insertMany([
     {
       'name': 'Death',
       'strength': 6,
+      'weakness': 'a',
       'img': 'images/Death.jpeg'
     },
     {
       'name': 'Deamon',
       'strength': 7,
+      'weakness': 'a',
       'img': 'images/Deamon.jpeg'
     },
     {
       'name': 'Dragon',
       'strength': 9,
+      'weakness': 'a',
       'img': 'images/Dragon.jpeg'
     },
     ]

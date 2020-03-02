@@ -19,7 +19,7 @@
               <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
 
               <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
-              <button class="myButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster">Fight Monster</button>
+              <button class="fightButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster">Fight Monster</button>
             </div>
 
             <div   class="alignMonsters">
@@ -110,6 +110,26 @@ export default {
 
   },
   methods:{
+
+    resetGame(){
+      GameService.getGame()
+      .then(game => {this.heroCards = game[0].cards
+        this.monsterCards = game[2].cards
+      })
+      this.resetBoard()
+
+      this.playersArray.concat(this.passedPlayers),
+
+      this.dungeonCards = [],
+      this.passedPlayers = [],
+      this.totalHealth = 0,
+      this.fightStarted= false,
+      this.weapons= [],
+      this.dungeonsc=[]
+
+    },
+
+
     pickMonster(){
       if(this.pickedMonster == null){
         let  array =  this.monsterCards
@@ -122,7 +142,51 @@ export default {
     },
 
     fightMonster(){
+      // debugger;
+      if (this.weapons.includes(this.dungeonsc.weakness)){
+        this.dungeonCards.splice(0, 1)
+        this.dungeonsc = []
+        this.fight()
+        if(this.dungeonCards.length == 0 ){
+          this.activePlayer.win += 1
+        }
+        if(this.activePlayer.win ==2 ){
+          // win game
+        }
+        // this.resetGame()
+      } else {
 
+        this.totalHealth -= this.dungeonsc.strength
+        const result = this.dungeonCards.splice(0, 1)
+        this.dungeonsc = []
+        if (this.totalHealth <= 0){
+
+          if(this.activePlayer.life == 2){
+            this.activePlayer.life = 1
+
+            this.resetGame()
+          }
+          if(this.activePlayer.life == 1){
+            let player = this.activePlayer
+            let index = this.playersArray.indexOf(player)
+            this.playersArray.splice(index, 1)
+            this.resetGame()
+          }
+
+          // this.passedPlayers.push(player)
+          // this.resetGame()
+          // this.activePlayer = this.playersArray[0]
+        }
+      }
+      if(this.dungeonCards.length == 0){
+      this.activePlayer = []
+
+      for(let player of this.passedPlayers){
+        this.playersArray.push(player)
+      }
+      return  this.playersArray
+      this.resetGame()
+    }
     },
 
     addToDungeon(){
@@ -154,16 +218,36 @@ export default {
       this.heroToDelete = null
     },
 
+    resetBoardTwo(){
+      this.pickedMonster = null,
+      this.selectedHero = null,
+      this.monsterWasPicked = false,
+      this.monsterWasAdded = false,
+      this.discardMonsterActivated = false,
+      this.heroToDelete = null
+    },
+
+    assigndungeonsc(){
+      const monster = this.dungeonCards[0]
+      this.dungeonsc = monster
+    },
     fight(){
       this.fightStarted = true
-      for (let hero of this.heroCards){
-        let points = hero.hitpoints
-        this.totalHealth += points
-        let weapon = hero.type
-        this.weapons.push(weapon)
-        const monster = this.dungeonCards[0]
-        this.dungeonsc = monster
+      if (this.totalHealth == 0){
+
+        for (let hero of this.heroCards){
+          let points = hero.hitpoints
+          this.totalHealth += points
+          let weapon = hero.type
+          this.weapons.push(weapon)
+          const monster = this.dungeonCards[0]
+          this.dungeonsc = monster
+        }
       }
+      else{
+        this.assigndungeonsc()
+      }
+
     },
 
     playerPass(){
@@ -179,19 +263,19 @@ export default {
       }
     },
     nextPlayer(){
-      if(this.playersArray.length > 1){
-        this.resetBoard()
-        let player = this.activePlayer
-        let index = this.playersArray.indexOf(player)
-        this.playersArray.splice(index, 1)
-        this.passedPlayers.push(player)
-        this.activePlayer = this.playersArray[0]
-        this.playersArray.push(player)
-      } else {
-        this.fight()
 
-      }
+      let player = this.activePlayer
+      let index = this.playersArray.indexOf(player)
+      this.playersArray.splice(index, 1)
+      // this.playersArray.push(player)
+      this.activePlayer = this.playersArray[0]
+      this.playersArray.push(player)
+      this.resetBoardTwo()
     }
+
+
+
+
   },
   watch:{
     checkLength() {
