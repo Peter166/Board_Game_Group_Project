@@ -4,38 +4,42 @@
     <div class="start-game"  v-if="gameStarted">
 
 
-    <div class="container">
-      <div class="leftpane" >
-        <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
-        <h1 class="active-player-display">its {{this.activePlayer.name}}'s turn</h1>
-      </div>
-      <div class="middlepane">
-        <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
-        <div class="dungeoncards">
-          <dungeon-card  />
-          <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
-          <dungeon-display v-for="(monster, index1) in dungeonCards" :key="index1" :dungeonsc="dungeonsc"/>
-          <li><button class="myButton" type="button" v-if="this.fightStarted" v-on:click="fightMonster">Fight Monster</button></li>
+      <div class="container">
+        <div class="leftpane" >
+          <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
+          <h1 class="active-player-display">its {{this.activePlayer.name}}'s turn</h1>
         </div>
+        <div class="middlepane">
+          <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
+          <div class="fightdungeon">
 
-        <div class="alignMonsters">
-          <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
-          <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
+            <div class="dungeoncards">
+
+              <dungeon-card  />
+              <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
+              <dungeon-display v-for="(monster, index1) in dungeonCards" :key="index1" :dungeonsc="dungeonsc"/>
+              <li><button class="myButton" type="button" v-if="this.fightStarted" v-on:click="fightMonster">Fight Monster</button></li>
+            </div>
+
+            <div class="alignMonsters">
+              <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
+              <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
+            </div>
+
+            <img width="300" src="../assets/images/RandomCards-V3.png" />
+
+            <ul style="list-style-type:none;">
+              <li><button class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
+              <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
+              <li><button class="myButton" type="button" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
+              <li><button class="myButton" type="button" v-on:click="playerPass">Pass</button></li>
+              <li><button class="myButton" type="button" v-on:click="nextPlayer">Next Player</button></li>
+            </ul>
+          </div>
         </div>
-
-        <img width="300" src="../assets/images/RandomCards.jpeg" />
-
-        <ul style="list-style-type:none;">
-          <li><button class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
-          <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
-          <li><button class="myButton" type="button" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
-          <li><button class="myButton" type="button" v-on:click="playerPass">Pass</button></li>
-          <li><button class="myButton" type="button" v-on:click="nextPlayer">Next Player</button></li>
-        </ul>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -150,38 +154,56 @@ export default {
     fight(){
       for (let hero of this.heroCards){
         let points = hero.hitpoints
-      this.totalHealth += points
-      let weapon = hero.type
-      this.weapons.push(weapon)
+        this.totalHealth += points
+        let weapon = hero.type
+        this.weapons.push(weapon)
+        const monster = this.dungeonCards[0]
+        if (this.weapons.includes(monster.weakness)){
+          let index = this.dungeonCards.indexOf(monster)
+          this.dungeonCards.splice(index, 1)
+        }
+
+
+
       }
     },
 
     playerPass(){
-      if (this.playersArray.length = 1 ){
-        this.fight()
-      } else {
       this.resetBoard()
       let player = this.activePlayer
       let index = this.playersArray.indexOf(player)
       this.playersArray.splice(index, 1)
       this.passedPlayers.push(player)
       this.activePlayer = this.playersArray[0]
-    }
+
+      if (this.playersArray.length === 1 ){
+        this.fight()
+      }
     },
     nextPlayer(){
       if(this.playersArray.length > 1){
-      this.resetBoard()
-      let player = this.activePlayer
-      let index = this.playersArray.indexOf(player)
-      this.playersArray.splice(index, 1)
-      this.passedPlayers.push(player)
-      this.activePlayer = this.playersArray[0]
-      this.playersArray.push(player)
-    } else {
-     this.fight()
+        this.resetBoard()
+        let player = this.activePlayer
+        let index = this.playersArray.indexOf(player)
+        this.playersArray.splice(index, 1)
+        this.passedPlayers.push(player)
+        this.activePlayer = this.playersArray[0]
+        this.playersArray.push(player)
+      } else {
+        this.fight()
+
+      }
     }
+  },
+  watch:{
+    checkLength() {
+      if (this.playersArray.length == 1){
+        debugger;
+        // this.fight()
+      }
+    }
+
   }
-}
 
 
 
@@ -197,7 +219,10 @@ body, html {
   height: 100%;
   margin: 0;
 }
-
+.fightdungeon{
+  background-color: red;
+  position: relative;
+}
 .container {
   width: 100%;
   height: 100%;
