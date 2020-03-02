@@ -145,7 +145,6 @@ db.dungeon.insertMany([
     {
       'name': 'Dragon',
       'strength': 9,
-      'weakness': 'Vorpal Axe',
       'img': 'images/Dragon.jpeg'
     },
     ]
