@@ -146,7 +146,11 @@ export default {
       if (this.weapons.includes(this.dungeonsc.weakness)){
         this.dungeonCards.splice(0, 1)
         this.dungeonsc = []
+        let health = this.totalHealth
         this.fight()
+        if(this.totalHealth > 0 ){
+          this.totalHealth = health
+        }
         if(this.dungeonCards.length == 0 ){
           this.activePlayer.win += 1
         }
@@ -179,14 +183,14 @@ export default {
         }
       }
       if(this.dungeonCards.length == 0){
-      this.activePlayer = []
+        this.activePlayer = []
 
-      for(let player of this.passedPlayers){
-        this.playersArray.push(player)
+        for(let player of this.passedPlayers){
+          this.playersArray.push(player)
+        }
+        return  this.playersArray
+        this.resetGame()
       }
-      return  this.playersArray
-      this.resetGame()
-    }
     },
 
     addToDungeon(){
