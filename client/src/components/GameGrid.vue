@@ -166,7 +166,7 @@ export default {
       this.playersArray.splice(index, 1)
       this.passedPlayers.push(player)
       this.activePlayer = this.playersArray[0]
-     }
+    }
     },
     nextPlayer(){
       if(this.playersArray.length > 1){
