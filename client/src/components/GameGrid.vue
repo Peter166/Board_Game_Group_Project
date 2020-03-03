@@ -18,14 +18,14 @@
               <dungeon-card  />
               <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
 
-              <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
+              <dungeon-display  :dungeonsc="dungeonsc"/>
               <button class="myButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster"> ⚔️Fight Monster ⚔️</button>
               <button class="myButton" type="button" v-if="this.fightStarted == true && this.weapons.includes('Vorpal Axe') && this.axeUsed == false" v-on:click="useAxe"> ☠️ Use Axe (Auto Kill) ☠️</button>
             </div>
 
             <div   class="alignMonsters">
               <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
-              <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
+              <picked-monster class="pickedMonster" :pickedMonster="pickedMonster"/>
             </div>
 
             <img width="300" src="../assets/images/RandomCards-V3.png" />
@@ -263,12 +263,9 @@ export default {
 
     },
 
-
-    fight(){
-      this.fightStarted = true
-
-      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
-
+    dungeonIsEmptyAndTotalHealthIsValid(){
+     if (this.dungeonCards.length == 0 && this.totalHealth > 0){
+       console.log("In function");
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
         const  totalpoints = points + 1
@@ -276,15 +273,18 @@ export default {
         this.activePlayer.win = totalpoints
         this.resetGameWin()
       }
+    },
 
+
+    fight(){
+      this.fightStarted = true;
+      (this.dungeonIsEmptyAndTotalHealthIsValid())
 
       if (this.activePlayer.win === 2){
 
         console.log('You won');
         this.resetGameWin()
       }
-
-
 
       if (this.totalHealth == 0){
 
