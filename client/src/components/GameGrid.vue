@@ -118,9 +118,23 @@ export default {
         this.monsterCards = game[2].cards
       })
       this.resetBoard()
+      // this.playersArray.push(this.activePlayer)
+      for(let player of this.passedPlayers){
+        this.playersArray.push(player)
+      }
+      this.dungeonCards = []
+      this.passedPlayers = []
+      this.totalHealth = 0
+      this.fightStarted= false
+      this.weapons = []
+      this.dungeonsc = []
+      this.activePlayer = this.playersArray[0]
+
+
     },
 
     resetGameLose(){
+      debugger;
       GameService.getGame()
       .then(game => {this.heroCards = game[0].cards
         this.monsterCards = game[2].cards
@@ -157,8 +171,8 @@ export default {
     fightMonster(){
       if (this.weapons.includes(this.dungeonsc.weakness)){
         this.dungeonCards.splice(0, 1)
-        debugger;
         this.dungeonsc = []
+
       }else {
         const total= Number(this.totalHealth)
         const lost = Number(this.dungeonsc.strength)
@@ -172,19 +186,14 @@ export default {
 
         this.activePlayer.life -= 1
         this.dungeonCards = []
-        if(this.activePlayer.life <= 0){
-          this.playersArray = []
 
-          // let player = this.activePlayer
-          // player
-          // let index = this.playersArray.indexOf(player)
-          // this.playersArray.splice(index, 1)
-          this.activePlayer = 0
+        if(this.activePlayer.life == 0){
+          debugger;
+          this.playersArray = []
           this.resetGameLose()
 
         }
-
-        const result = this.dungeonCards.splice(0, 1)
+        this.resetGameLose()
 
 
 
@@ -230,13 +239,13 @@ export default {
     },
 
     assigndungeonsc(){
-      debugger;
+
       if (this.dungeonCards.length !== 0){
-      const monster = this.dungeonCards[0]
-      this.dungeonsc = monster
-    } else {
-      this.dungeonsc = []
-    }
+        const monster = this.dungeonCards[0]
+        this.dungeonsc = monster
+      } else {
+        this.dungeonsc = []
+      }
 
     },
 
@@ -255,11 +264,14 @@ export default {
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
         const  totalpoints = points + 1
+
         this.activePlayer.win = totalpoints
+        this.resetGameWin()
       }
 
 
       if (this.activePlayer.win === 2){
+        debugger;
         console.log('You won');
         this.resetGameWin()
       }

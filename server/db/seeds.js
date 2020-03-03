@@ -51,20 +51,20 @@ db.dungeon.insertMany([
     {
       'name': 'Tom',
       'pass': false,
-      'win': 1,
-      'life': 1
+      'win': 0,
+      'life': 2
     },
     {
       'name': 'Sandy',
       'pass': false,
-      'win': 1,
-      'life': 1
+      'win': 0,
+      'life': 2
     },
     {
       'name': 'Bob',
       'pass': false,
-      'win': 1,
-      'life': 1
+      'win': 0,
+      'life': 2
     }
   ]
 
