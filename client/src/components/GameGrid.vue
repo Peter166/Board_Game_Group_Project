@@ -31,9 +31,9 @@
             <img width="300" src="../assets/images/RandomCards-V3.png" />
 
             <ul style="list-style-type:none;">
-              <li><button id="pickButton" class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
-              <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
-              <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
+              <li><button id="pickButton" class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="pickMonster">Take a Monster</button></li>
+              <li><button class="myButton" type="button" v-if="showPickedMonsterActionButtons" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
+              <li><button class="myButton" type="button" v-if="showPickedMonsterActionButtons" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
               <li><button class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="playerPass">Pass</button></li>
               <li><button class="myButton" type="button" v-if="this.monsterWasPicked && this.monsterWasAdded || this.discardMonsterActivated" v-on:click="nextPlayer">Next Player</button></li>
             </ul>
@@ -75,7 +75,11 @@ export default {
       weapons: [],
       dungeonsc: [],
       axeUsed: false,
-      potionUsed: false
+      potionUsed: false,
+      // turnOffAdd: false,
+      // turnOffDiscard: false,
+      showPickedMonsterActionButtons: false
+
 
     }
   },
@@ -165,7 +169,8 @@ export default {
         this.pickedMonster = result
         let index = this.monsterCards.indexOf(result)
         this.monsterCards.splice(index, 1)
-        return this.monsterWasPicked = true
+        this.showPickedMonsterActionButtons = true;
+        this.monsterWasPicked = true;
       }
     },
 
@@ -198,9 +203,10 @@ export default {
       else if(this.totalHealth <= 0){
 
         this.activePlayer.life -= 1
+        window.confirm(`${this.activePlayer.name} was defeated by Dungeon!!`);
         this.dungeonCards = []
         if(this.activePlayer.life == 0){
-
+          window.confirm(`${this.activePlayer.name} Was Killed!!`);
           this.playersArray = []
           this.resetGameLose()
 
@@ -224,7 +230,9 @@ export default {
       if(this.monsterWasAdded === false && this.monsterWasPicked === true && this.discardMonsterActivated == false){
         let result =  this.dungeonCards.push(this.pickedMonster)
         this.pickedMonster = []
-        return this.monsterWasAdded = true
+        this.monsterWasAdded = true
+        // this.turnOffDiscard = true
+        this.showPickedMonsterActionButtons = false;
       }
     },
 
@@ -232,6 +240,8 @@ export default {
       if(this.monsterWasPicked === true){
         this.pickedMonster = []
         this.discardMonsterActivated = true
+        // this.turnOffAdd = true
+        this.showPickedMonsterActionButtons = false;
       }
     },
 
@@ -269,7 +279,7 @@ export default {
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
         const  totalpoints = points + 1
-
+        window.confirm(`${this.activePlayer.name} Gain One Win!!!`);
         this.activePlayer.win = totalpoints
         this.resetGameWin()
       }
@@ -281,8 +291,7 @@ export default {
       (this.dungeonIsEmptyAndTotalHealthIsValid())
 
       if (this.activePlayer.win === 2){
-
-        console.log('You won');
+        window.confirm(`${this.activePlayer.name} Won The game!!`);
         this.resetGameWin()
       }
 
