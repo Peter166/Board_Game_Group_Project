@@ -51,20 +51,20 @@ db.dungeon.insertMany([
     {
       'name': 'Tom',
       'pass': false,
-      'win': 0,
-      'life': 2
+      'win': 1,
+      'life': 1
     },
     {
       'name': 'Sandy',
       'pass': false,
-      'win': 0,
-      'life': 2
+      'win': 1,
+      'life': 1
     },
     {
       'name': 'Bob',
       'pass': false,
-      'win': 0,
-      'life': 2
+      'win': 1,
+      'life': 1
     }
   ]
 
@@ -111,13 +111,13 @@ db.dungeon.insertMany([
       {
         'name': 'Vampire',
         'strength': 4,
-        'weakness': 'Torch',
+        'weakness': 'a',
         'img': 'images/Vampire2.jpeg'
       },
       {
         'name': 'Vampire',
         'strength': 4,
-        'weakness': 'Torch',
+        'weakness': 'a',
         'img': 'images/Vampire2.jpeg'
       },
       {

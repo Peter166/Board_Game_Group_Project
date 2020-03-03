@@ -56,6 +56,8 @@ export default {
   name: 'game-grid',
   data(){
     return{
+      StartMonsterCards: null,
+      StartHeroCards: null,
       heroCards: null,
       monsterCards: null,
       playersArray: null,
@@ -110,22 +112,33 @@ export default {
 
   },
   methods:{
+    resetGameWin(){
+      GameService.getGame()
+      .then(game => {this.heroCards = game[0].cards
+        this.monsterCards = game[2].cards
+      })
+      this.resetBoard()
+    },
 
-    resetGame(){
+    resetGameLose(){
       GameService.getGame()
       .then(game => {this.heroCards = game[0].cards
         this.monsterCards = game[2].cards
       })
       this.resetBoard()
 
-      this.playersArray.concat(this.passedPlayers),
 
-      this.dungeonCards = [],
-      this.passedPlayers = [],
-      this.totalHealth = 0,
-      this.fightStarted= false,
-      this.weapons= [],
-      this.dungeonsc=[]
+      for(let player of this.passedPlayers){
+        this.playersArray.push(player)
+      }
+
+      this.dungeonCards = []
+      this.passedPlayers = []
+      this.totalHealth = 0
+      this.fightStarted= false
+      this.weapons = []
+      this.dungeonsc = []
+      this.activePlayer = this.playersArray[0]
 
     },
 
@@ -142,55 +155,48 @@ export default {
     },
 
     fightMonster(){
-      // debugger;
       if (this.weapons.includes(this.dungeonsc.weakness)){
         this.dungeonCards.splice(0, 1)
+        debugger;
         this.dungeonsc = []
-        let health = this.totalHealth
-        this.fight()
-        if(this.totalHealth > 0 ){
-          this.totalHealth = health
-        }
-        if(this.dungeonCards.length == 0 ){
-          this.activePlayer.win += 1
-        }
-        if(this.activePlayer.win ==2 ){
-          // win game
-        }
-        // this.resetGame()
-      } else {
-
-        this.totalHealth -= this.dungeonsc.strength
+      }else {
+        const total= Number(this.totalHealth)
+        const lost = Number(this.dungeonsc.strength)
+        this.totalHealth = total - lost
         const result = this.dungeonCards.splice(0, 1)
         this.dungeonsc = []
-        if (this.totalHealth <= 0){
-
-          if(this.activePlayer.life == 2){
-            this.activePlayer.life = 1
-
-            this.resetGame()
-          }
-          if(this.activePlayer.life == 1){
-            let player = this.activePlayer
-            let index = this.playersArray.indexOf(player)
-            this.playersArray.splice(index, 1)
-            this.resetGame()
-          }
-
-          // this.passedPlayers.push(player)
-          // this.resetGame()
-          // this.activePlayer = this.playersArray[0]
-        }
       }
-      if(this.dungeonCards.length == 0){
-        this.activePlayer = []
 
-        for(let player of this.passedPlayers){
-          this.playersArray.push(player)
+
+      if(this.totalHealth <= 0){
+
+        this.activePlayer.life -= 1
+        this.dungeonCards = []
+        if(this.activePlayer.life <= 0){
+          this.playersArray = []
+
+          // let player = this.activePlayer
+          // player
+          // let index = this.playersArray.indexOf(player)
+          // this.playersArray.splice(index, 1)
+          this.activePlayer = 0
+          this.resetGameLose()
+
         }
-        return  this.playersArray
-        this.resetGame()
+
+        const result = this.dungeonCards.splice(0, 1)
+
+
+
+      } else {
+        this.fight()
       }
+
+
+
+
+
+
     },
 
     addToDungeon(){
@@ -220,23 +226,49 @@ export default {
       this.monsterWasAdded = false,
       this.discardMonsterActivated = false,
       this.heroToDelete = null
-    },
-
-    resetBoardTwo(){
-      this.pickedMonster = null,
-      this.selectedHero = null,
-      this.monsterWasPicked = false,
-      this.monsterWasAdded = false,
-      this.discardMonsterActivated = false,
-      this.heroToDelete = null
+      this.fightStarted = false
     },
 
     assigndungeonsc(){
+      debugger;
+      if (this.dungeonCards.length !== 0){
       const monster = this.dungeonCards[0]
       this.dungeonsc = monster
+    } else {
+      this.dungeonsc = []
+    }
+
     },
+
+
     fight(){
       this.fightStarted = true
+      // if(this.activePlayer.life === 0){
+      //   let player = this.activePlayer
+      //   let index = this.playersArray.indexOf(player)
+      //   this.playersArray.splice(index, 1)
+      //   this.activePlayer = []
+
+
+      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
+
+        this.dungeonsc = []
+        const points= Number(this.activePlayer.win)
+        const  totalpoints = points + 1
+        this.activePlayer.win = totalpoints
+      }
+
+
+      if (this.activePlayer.win === 2){
+        console.log('You won');
+        this.resetGameWin()
+      }
+
+      //WIN CONDITION
+
+
+
+
       if (this.totalHealth == 0){
 
         for (let hero of this.heroCards){
@@ -244,11 +276,10 @@ export default {
           this.totalHealth += points
           let weapon = hero.type
           this.weapons.push(weapon)
-          const monster = this.dungeonCards[0]
-          this.dungeonsc = monster
+          this.assigndungeonsc()
+
         }
-      }
-      else{
+      } else {
         this.assigndungeonsc()
       }
 
@@ -274,27 +305,22 @@ export default {
       // this.playersArray.push(player)
       this.activePlayer = this.playersArray[0]
       this.playersArray.push(player)
-      this.resetBoardTwo()
+      this.resetBoard()
     }
 
 
 
 
-  },
-  watch:{
-    checkLength() {
-      if (this.playersArray.length == 1){
-        debugger;
-        // this.fight()
-      }
-    }
 
   }
-
-
-
-
 }
+
+
+
+
+
+
+
 </script>
 
 <style lang="css" scoped>

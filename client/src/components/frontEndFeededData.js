@@ -1,116 +1,42 @@
-dungeonCards: [{name: 'I AM A HIDDEN CARD',
- img: "Ork.png"
-}],
+fightMonster(){
+  // debugger;
+  if (this.weapons.includes(this.dungeonsc.weakness)){
+    this.dungeonCards.splice(0, 1)
+    this.dungeonsc = []
 
-heroCards: [
-  {
-    name: 'Barbarian',
-    hitpoints: 4,
-    // img: './Barbarian.jpg'
-  },
-  {
-    name: 'Leather Shield',
-    hitpoints: 3,
-    // img: '../assets/Barbarian.jpg'
-  },
-  {
-    name: 'Chainmail',
-    hitpoints: 4,
-    card: 'hero'
-  },
-  {
-    name: 'Vorpal Axe',
-    type: 'Vorpal Axe',
-    card: 'hero'
-  },
-  {
-    name: 'Healing Potion',
-    type: 'Healing Potion',
-    card: 'hero'
-  },
-  {
-    name: 'War Hammer',
-    type: 'War Hammer',
-    card: 'hero'
+    let health = this.totalHealth
+    this.fight()
+    if(this.totalHealth > 0 ){
+      this.totalHealth = health
+    }
+    if(this.dungeonCards.length == 0 ){
+      this.activePlayer.win += 1
+    }
+    if(this.activePlayer.win ==2 ){
+      // win game
+    }
+    // this.resetGame()
+  } else {
+
+    this.totalHealth -= this.dungeonsc.strength
+    const result = this.dungeonCards.splice(0, 1)
+    this.dungeonsc = []
+    if (this.totalHealth <= 0){
+
+      if(this.activePlayer.life == 2){
+        this.activePlayer.life = 1
+
+        this.resetGame()
+      }
+      if(this.activePlayer.life == 1){
+        let player = this.activePlayer
+        let index = this.playersArray.indexOf(player)
+        this.playersArray.splice(index, 1)
+        this.resetGame()
+      }
+
+      // this.passedPlayers.push(player)
+      // this.resetGame()
+      // this.activePlayer = this.playersArray[0]
+    }
   }
-],
-
-
-monsterCards: [
-  {
-    name: 'Small goblin',
-    strength: 1,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Small goblin',
-    strength: 1,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Skeleton',
-    strength: 2,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Skeleton',
-    strength: 2,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Ork',
-    strength: 3,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Ork',
-    strength: 3,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Vampire',
-    strength: 4,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Vampire',
-    strength: 4,
-    weakness: 'Torch',
-    card: 'monster'
-  },
-  {
-    name: 'Golem',
-    strength: 5,
-    weakness: 'War Hammer',
-    card: 'monster'
-  },
-  {
-    name: 'Golem',
-    strength: 5,
-    weakness: 'War Hammer',
-    card: 'monster'
-  },
-  {
-    name: 'Death',
-    strength: 6,
-    card: 'monster'
-  },
-  {
-    name: 'Deamon',
-    strength: 7,
-    card: 'monster'
-
-  },
-  {
-    name: 'Dragon',
-    strength: 9,
-    weakness: 'Vorpal Axe'
-  },
-]
