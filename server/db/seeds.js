@@ -7,17 +7,17 @@ db.dungeon.insertMany([
     'cards': [
       {
         'name': 'Barbarian',
-        'hitpoints': 2,
+        'hitpoints': 4,
         'img': 'images/Barbarian.jpeg'
       },
       {
         'name': 'Leather Shield',
-        'hitpoints': 0,
+        'hitpoints': 3,
         'img': 'images/LeatherShield.jpeg'
       },
       {
         'name': 'Chainmail',
-        'hitpoints': 0,
+        'hitpoints': 4,
         'img': 'images/Chainmail.jpeg'
       },
       {

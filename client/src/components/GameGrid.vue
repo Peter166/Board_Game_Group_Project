@@ -253,6 +253,8 @@ export default {
       this.discardMonsterActivated = false,
       this.heroToDelete = null
       this.fightStarted = false
+      this.axeUsed = false
+      this.potionUsed = false
     },
 
     assigndungeonsc(){
