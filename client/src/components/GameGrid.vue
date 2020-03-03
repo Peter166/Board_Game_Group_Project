@@ -20,6 +20,7 @@
 
               <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
               <button class="fightButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster">Fight Monster</button>
+              <button class="AxeButton" type="button" v-if="this.fightStarted == true && this.weapons.includes('Vorpal Axe') && this.axeUsed == false" v-on:click="useAxe">Use Axe</button>
             </div>
 
             <div   class="alignMonsters">
@@ -74,7 +75,8 @@ export default {
       totalHealth: 0,
       fightStarted: false,
       weapons: [],
-      dungeonsc: []
+      dungeonsc: [],
+      axeUsed: false
 
     }
   },
@@ -183,7 +185,13 @@ export default {
 
 
       if(this.totalHealth <= 0){
-
+        debugger;
+        if(this.weapons.includes("Healing Potion")){
+          debugger;
+          this.totalHealth=4;
+          this.dungeonsc = []
+          this.fight()
+        }
         this.activePlayer.life -= 1
         this.dungeonCards = []
 
@@ -318,6 +326,24 @@ export default {
       this.activePlayer = this.playersArray[0]
       this.playersArray.push(player)
       this.resetBoard()
+    },
+    useAxe(){
+      debugger;
+      this.dungeonCards.splice(0, 1)
+      let weapon = null
+      for (let hero of this.heroCards){
+        if (hero.type === 'Vorpal Axe'){
+          weapon = hero
+        }
+        // return weapon
+      }
+      debugger;
+      const index = this.heroCards.indexOf(weapon)
+      this.heroCards.splice(index, 1)
+
+      this.axeUsed = true
+
+      this.fight()
     }
 
 
@@ -325,6 +351,7 @@ export default {
 
 
   }
+
 }
 
 
