@@ -19,8 +19,8 @@
               <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
 
               <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
-              <button class="fightButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster">Fight Monster</button>
-              <button class="AxeButton" type="button" v-if="this.fightStarted == true && this.weapons.includes('Vorpal Axe') && this.axeUsed == false" v-on:click="useAxe">Use Axe</button>
+              <button class="myButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster"> ⚔️Fight Monster ⚔️</button>
+              <button class="myButton" type="button" v-if="this.fightStarted == true && this.weapons.includes('Vorpal Axe') && this.axeUsed == false" v-on:click="useAxe"> ☠️ Use Axe (Auto Kill) ☠️</button>
             </div>
 
             <div   class="alignMonsters">
@@ -31,11 +31,11 @@
             <img width="300" src="../assets/images/RandomCards-V3.png" />
 
             <ul style="list-style-type:none;">
-              <li><button class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
+              <li><button id="pickButton" class="myButton" type="button" v-on:click="pickMonster">Take a Monster</button></li>
               <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
-              <li><button class="myButton" type="button" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
-              <li><button class="myButton" type="button" v-on:click="playerPass">Pass</button></li>
-              <li><button class="myButton" type="button" v-on:click="nextPlayer">Next Player</button></li>
+              <li><button class="myButton" type="button" v-if="this.monsterWasPicked" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
+              <li><button class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="playerPass">Pass</button></li>
+              <li><button class="myButton" type="button" v-if="this.monsterWasPicked && this.monsterWasAdded || this.discardMonsterActivated" v-on:click="nextPlayer">Next Player</button></li>
             </ul>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default {
     },
 
     resetGameLose(){
-      debugger;
+      
       GameService.getGame()
       .then(game => {this.heroCards = game[0].cards
         this.monsterCards = game[2].cards
@@ -185,7 +185,7 @@ export default {
       }
 
       if(this.totalHealth <= 0 && this.weapons.includes("Healing Potion") && this.potionUsed == false){
-        debugger;
+        
         this.potionUsed = true
         this.totalHealth=4;
         let weapon = null
@@ -200,12 +200,12 @@ export default {
         this.fight()
       }
       else if(this.totalHealth <= 0){
-        debugger;
+        
         this.activePlayer.life -= 1
         this.dungeonCards = []
 
         if(this.activePlayer.life == 0){
-          debugger;
+          
           this.playersArray = []
           this.resetGameLose()
 
@@ -278,7 +278,7 @@ export default {
       //   this.activePlayer = []
 
 
-      if (this.dungeonCards.length == 0 && this.totalHealth > 0 && this.dungeonsc==[]){
+      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
 
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
@@ -290,7 +290,7 @@ export default {
 
 
       if (this.activePlayer.win === 2){
-        debugger;
+        
         console.log('You won');
         this.resetGameWin()
       }
@@ -339,7 +339,7 @@ export default {
       this.resetBoard()
     },
     useAxe(){
-      debugger;
+      
       this.dungeonCards.splice(0, 1)
       let weapon = null
       for (let hero of this.heroCards){
@@ -348,7 +348,7 @@ export default {
         }
         // return weapon
       }
-      debugger;
+      
       const index = this.heroCards.indexOf(weapon)
       this.heroCards.splice(index, 1)
 
