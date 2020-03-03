@@ -76,7 +76,8 @@ export default {
       fightStarted: false,
       weapons: [],
       dungeonsc: [],
-      axeUsed: false
+      axeUsed: false,
+      potionUsed: false
 
     }
   },
@@ -183,15 +184,23 @@ export default {
         this.dungeonsc = []
       }
 
-
-      if(this.totalHealth <= 0){
+      if(this.totalHealth <= 0 && this.weapons.includes("Healing Potion") && this.potionUsed == false){
         debugger;
-        if(this.weapons.includes("Healing Potion")){
-          debugger;
-          this.totalHealth=4;
-          this.dungeonsc = []
-          this.fight()
+        this.potionUsed = true
+        this.totalHealth=4;
+        let weapon = null
+        for (let hero of this.heroCards){
+          if (hero.type === 'Healing Potion'){
+            weapon = hero
+          }
         }
+        const index = this.heroCards.indexOf(weapon)
+        this.heroCards.splice(index, 1)
+
+        this.fight()
+      }
+      else if(this.totalHealth <= 0){
+        debugger;
         this.activePlayer.life -= 1
         this.dungeonCards = []
 
@@ -267,7 +276,7 @@ export default {
       //   this.activePlayer = []
 
 
-      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
+      if (this.dungeonCards.length == 0 && this.totalHealth > 0 && this.dungeonsc==[]){
 
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
