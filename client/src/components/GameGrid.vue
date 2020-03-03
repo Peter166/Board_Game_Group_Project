@@ -57,8 +57,6 @@ export default {
   name: 'game-grid',
   data(){
     return{
-      StartMonsterCards: null,
-      StartHeroCards: null,
       heroCards: null,
       monsterCards: null,
       playersArray: null,
@@ -137,7 +135,7 @@ export default {
     },
 
     resetGameLose(){
-      debugger;
+
       GameService.getGame()
       .then(game => {this.heroCards = game[0].cards
         this.monsterCards = game[2].cards
@@ -185,7 +183,6 @@ export default {
       }
 
       if(this.totalHealth <= 0 && this.weapons.includes("Healing Potion") && this.potionUsed == false){
-        debugger;
         this.potionUsed = true
         this.totalHealth=4;
         let weapon = null
@@ -196,16 +193,13 @@ export default {
         }
         const index = this.heroCards.indexOf(weapon)
         this.heroCards.splice(index, 1)
-
         this.fight()
       }
       else if(this.totalHealth <= 0){
-        debugger;
+
         this.activePlayer.life -= 1
         this.dungeonCards = []
-
         if(this.activePlayer.life == 0){
-          debugger;
           this.playersArray = []
           this.resetGameLose()
 
@@ -271,14 +265,8 @@ export default {
 
     fight(){
       this.fightStarted = true
-      // if(this.activePlayer.life === 0){
-      //   let player = this.activePlayer
-      //   let index = this.playersArray.indexOf(player)
-      //   this.playersArray.splice(index, 1)
-      //   this.activePlayer = []
 
-
-      if (this.dungeonCards.length == 0 && this.totalHealth > 0 && this.dungeonsc==[]){
+      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
 
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
@@ -290,13 +278,10 @@ export default {
 
 
       if (this.activePlayer.win === 2){
-        debugger;
+
         console.log('You won');
         this.resetGameWin()
       }
-
-      //WIN CONDITION
-
 
 
 
@@ -339,7 +324,7 @@ export default {
       this.resetBoard()
     },
     useAxe(){
-      debugger;
+
       this.dungeonCards.splice(0, 1)
       let weapon = null
       for (let hero of this.heroCards){
@@ -348,7 +333,7 @@ export default {
         }
         // return weapon
       }
-      debugger;
+
       const index = this.heroCards.indexOf(weapon)
       this.heroCards.splice(index, 1)
 
