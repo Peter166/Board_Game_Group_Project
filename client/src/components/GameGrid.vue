@@ -1,15 +1,18 @@
 <template lang="html">
-  <div>
+  <div >
     <button class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
     <div class="start-game"  v-if="gameStarted">
 
 
       <div class="container">
-        <div class="leftpane" >
-          <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
-          <h1 class="active-player-display">its {{this.activePlayer.name}}'s turn</h1>
-        </div>
         <div class="middlepane">
+          <div class="leftpane" >
+            <player v-for="(player, indeex) in playersArray" :key="indeex" :player="player"/>
+            <ul style="list-style-type:none;" class="active-player-display">
+            <li><p>It's {{this.activePlayer.name}}'s turn</p></li>
+            <li><img src="https://media0.giphy.com/media/cAlVwwtUVYp43vQABJ/giphy.webp?cid=790b7611fdac7dddbfea1ca95b6d7d53dfda5282661cdd80&rid=giphy.webp" height="250px" ></li>
+          </ul>
+          </div>
           <hero-card class="herocards" v-for="(hero, index) in heroCards" :key="index" :hero="hero"/>
           <div>
 
@@ -23,12 +26,12 @@
               <button class="myButton" type="button" v-if="this.fightStarted == true && this.weapons.includes('Vorpal Axe') && this.axeUsed == false" v-on:click="useAxe"> ☠️ Use Axe (Auto Kill) ☠️</button>
             </div>
 
-            <div   class="alignMonsters">
+            <div class="alignMonsters">
               <monster-card class="monstercards" v-for="(monster, index) in monsterCards" :key="index" :monster="monster"/>
               <picked-monster class="pickedMonster" :value="(pickedMonster, indeeex)" :key="indeeex" :pickedMonster="pickedMonster"/>
             </div>
 
-            <img width="300" src="../assets/images/RandomCards-V3.png" />
+            <img class="PickingCards" width="400" src="../assets/images/RandomCards-V3.png" />
 
             <ul style="list-style-type:none;">
               <li><button id="pickButton" class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="pickMonster">Take a Monster</button></li>
@@ -383,36 +386,49 @@ body, html {
 }
 
 .leftpane {
-  width: 30%;
   height: 100%;
+  width: 15%;
   float: left;
-  background-color: darkgrey;
-  background-size: cover;
+  background-image: url('https://ak9.picdn.net/shutterstock/videos/13298939/thumb/1.jpg');
+  /* border: solid;
+  border-width: 6px;
+  border-style: inset;
+  border-color: #8AC007; */
+  border-right:  20px solid transparent;
+  border-image: url("../assets/images/CelticBorderV.gif") 30 round;
 }
 
 .middlepane {
-  width: 70%;
+  position: fixed;
+  width: 100%;
   height: 100%;
-  float: left;
   background-image: url('https://ak9.picdn.net/shutterstock/videos/13298939/thumb/1.jpg');
-  border-collapse: collapse;
+  text-align: center;
 }
 
 .herocards{
-  font-family: fantasy;
   display: inline-block;
   padding-right: 3px;
   padding-left: 3px;
   text-align: center;
+  padding-bottom: 30px;
 
 }
 
 .dungeoncards{
-  background-color: black;
+  background-image: url("../assets/images/DungeonDisplay.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   color: white;
   font-family: fantasy;
   text-align: center;
-  border: 3px solid #8AC007;
+  border: 20px solid transparent;
+  border-image: url("../assets/images/CelticBorder.gif") 30 round;
+}
+
+.monstercards{
+  text-align: left;
+  padding-right: 50px;
 }
 
 .myButton {
@@ -429,7 +445,7 @@ body, html {
   padding:12px 16px;
   text-decoration:none;
   text-shadow:0px 1px 0px #ffffff;
-  text-align: right;
+  text-align: center;
 }
 .myButton:hover {
   background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
@@ -447,8 +463,17 @@ body, html {
 }
 
 .active-player-display {
-  font-family: fantasy;
-  background-color: red;
+  font-size: 70px;
+  padding: 20px;
+  color: #8AC007;
+  text-align: center;
+  text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+}
+
+.PickingCards{
+  float: left;
+  padding-left: 50px;
+  padding-top:  50px;
 }
 
 </style>

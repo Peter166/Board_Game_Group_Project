@@ -22,6 +22,9 @@ export default {
 
 .picked {
   border-radius: 30px;
+    float: right;
+    padding-right: 50px;
+    padding-top:  50px;
 }
 
 </style>
