@@ -3,8 +3,8 @@
     <section class="startPage" v-if="this.gameStarted == false">
 
     <button  id='startButton' class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
-    <img id="speech" src="http://l.wigflip.com/LQP3W8R3/wigflip-ds.png" />
-    <img id="warrior" src="https://media3.giphy.com/media/3h2MtQzw4vhjq/giphy.gif?cid=790b7611aa35a8d4e1ec23af1a82d3dee81c36ee71159f77&rid=giphy.gif" height="600px" />
+    <img id="speech" src="http://l.wigflip.com/LQP3W8R3/wigflip-ds.png" height="70px" />
+    <img id="warrior" src="https://media3.giphy.com/media/3h2MtQzw4vhjq/giphy.gif?cid=790b7611aa35a8d4e1ec23af1a82d3dee81c36ee71159f77&rid=giphy.gif" height="800px" />
   </section>
     <div class="start-game"  v-if="gameStarted">
 
@@ -542,18 +542,18 @@ body, html {
 #startButton {
   position:relative;
    transition: .5s ease;
-   top: 10px;
-   left: 580px;
+   top: 30px;
+   left: 800px;
    right: -420px;
    bottom: -300px;
-   padding: 20px
+   padding: 30px
 }
 
 #warrior {
   position:relative;
    transition: .5s ease;
-   top: 350px;
-   left: 700px;
+   top: 500px;
+   left: 1000px;
    right: -420px;
    bottom: -300px;
    padding: 20px
@@ -563,7 +563,7 @@ body, html {
   position:relative;
    transition: .5s ease;
    top: -50px;
-   left: 900px;
+   left: 1300px;
    right: -420px;
    bottom: -300px;
    padding: 20px
