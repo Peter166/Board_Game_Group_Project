@@ -1,7 +1,11 @@
 <template lang="html">
   <div >
-    <!-- <p v-if="this.gameStarted == false"> hello </p> -->
-    <button class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
+    <section class="startPage" v-if="this.gameStarted == false">
+
+    <button  id='startButton' class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
+    <img id="speech" src="http://l.wigflip.com/LQP3W8R3/wigflip-ds.png" />
+    <img id="warrior" src="https://media3.giphy.com/media/3h2MtQzw4vhjq/giphy.gif?cid=790b7611aa35a8d4e1ec23af1a82d3dee81c36ee71159f77&rid=giphy.gif" height="600px" />
+  </section>
     <div class="start-game"  v-if="gameStarted">
 
 
@@ -23,7 +27,7 @@
               <h2 class="whiteText" v-if="this.fightStarted">Hero have: {{this.totalHealth}} life left </h2>
               <h2 v-if="this.dungeonCards.length == 0 || this.dungeonCards.length > 1" class="whiteText">{{this.dungeonCards.length}} Monster's In Dungeon! </h2>
               <h2 v-if="this.dungeonCards.length == 1 " class="whiteText">{{this.dungeonCards.length}} Monster In Dungeon! </h2>
-              <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
+              <img class="picked" v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
 
               <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
               <button class="myButton" type="button" v-if="this.fightStarted == true" v-on:click="fightMonster"> ⚔️Fight Monster ⚔️</button>
@@ -453,6 +457,7 @@ body, html {
   background-image: url("../assets/images/DungeonDisplay.png");
   background-size: cover;
   background-repeat: no-repeat;
+  width: 100vw;
   color: white;
   font-family: fantasy;
   text-align: center;
@@ -463,6 +468,10 @@ body, html {
 .monstercards{
   text-align: left;
   padding-right: 50px;
+}
+
+.picked {
+  border-radius: 30px;
 }
 
 .myButton {
@@ -512,5 +521,44 @@ body, html {
 .whiteText{
   color: white;
 }
+
+.startPage {
+  background-image: url('https://i.ytimg.com/vi/UR3OGzgt1VU/maxresdefault.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+
+#startButton {
+  position:relative;
+   transition: .5s ease;
+   top: 10px;
+   left: 580px;
+   right: -420px;
+   bottom: -300px;
+   padding: 20px
+}
+
+#warrior {
+  position:relative;
+   transition: .5s ease;
+   top: 350px;
+   left: 700px;
+   right: -420px;
+   bottom: -300px;
+   padding: 20px
+}
+
+#speech {
+  position:relative;
+   transition: .5s ease;
+   top: -50px;
+   left: 900px;
+   right: -420px;
+   bottom: -300px;
+   padding: 20px
+}
+
 
 </style>
