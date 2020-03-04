@@ -16,6 +16,9 @@
             <div class="dungeoncards">
 
               <dungeon-card  />
+              <h2 class="whiteText" v-if="this.fightStarted">Hero have: {{this.totalHealth}} life left </h2>
+              <h2 v-if="this.dungeonCards.length == 0 || this.dungeonCards.length > 1" class="whiteText">{{this.dungeonCards.length}} Monster's In Dungeon! </h2>
+              <h2 v-if="this.dungeonCards.length == 1 " class="whiteText">{{this.dungeonCards.length}} Monster In Dungeon! </h2>
               <img v-if="this.dungeonCards.length > 0" width="300" src="../assets/images/DungeonCard.jpeg" />
 
               <dungeon-display :value="(monster, index1)" :key="index1" :dungeonsc="dungeonsc"/>
@@ -79,6 +82,7 @@ export default {
       // turnOffAdd: false,
       // turnOffDiscard: false,
       showPickedMonsterActionButtons: false
+
 
 
     }
@@ -198,6 +202,18 @@ export default {
         }
         const index = this.heroCards.indexOf(weapon)
         this.heroCards.splice(index, 1)
+
+
+        let wepp = null
+        for(let wep of this.weapons){
+          if (wep === 'Healing Potion'){
+            wepp = wep
+          }
+        }
+        const weppIndex = this.weapons.indexOf(wepp)
+          this.weapons.splice(weppIndex, 1)
+
+
         this.fight()
       }
       else if(this.totalHealth <= 0){
@@ -449,6 +465,9 @@ body, html {
 .active-player-display {
   font-family: fantasy;
   background-color: red;
+}
+.whiteText{
+  color: white;
 }
 
 </style>
