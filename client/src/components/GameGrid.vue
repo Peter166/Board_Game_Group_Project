@@ -224,11 +224,14 @@ export default {
         this.activePlayer.life -= 1
         window.confirm(`${this.activePlayer.name} was defeated by Dungeon!!`);
         const resultt = this.totalHealth = 0
+        const res = this.weapons =[]
         this.dungeonCards = []
         if(this.activePlayer.life == 0){
           window.confirm(`${this.activePlayer.name} Was Killed!!`);
           this.playersArray = []
+
           const resultt = this.totalHealth = 0
+          const res = this.weapons =[]
           this.resetGameLose()
 
         }
@@ -273,6 +276,7 @@ export default {
 
     resetBoard(){
       this.totalHealth = 0
+      this.weapons =[]
       this.pickedMonster = null
       this.selectedHero = null
       this.monsterWasPicked = false
@@ -308,6 +312,8 @@ export default {
         this.activePlayer.win = totalpoints
         const resultt = this.totalHealth = 0
 
+        this.weapons =[]
+
         this.resetGameWin()
       }
 
@@ -315,6 +321,7 @@ export default {
       if (this.activePlayer.win === 2){
         window.confirm(`${this.activePlayer.name} Won The game!!`);
         const resultt =  this.totalHealth = 0
+        this.weapons =[]
         this.resetGameWin()
       }
 
