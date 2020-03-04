@@ -544,8 +544,8 @@ body, html {
 #startButton {
   position:relative;
    transition: .5s ease;
-   top: 30px;
-   left: 800px;
+   top: 130px;
+   left: 890px;
    right: -420px;
    bottom: -300px;
    padding: 30px
@@ -554,8 +554,8 @@ body, html {
 #warrior {
   position:relative;
    transition: .5s ease;
-   top: 500px;
-   left: 1000px;
+   top: 700px;
+   left: 1100px;
    right: -420px;
    bottom: -300px;
    padding: 20px
@@ -564,8 +564,8 @@ body, html {
 #speech {
   position:relative;
    transition: .5s ease;
-   top: -50px;
-   left: 1300px;
+   top:  150px;
+   left: 1370px;
    right: -420px;
    bottom: -300px;
    padding: 20px

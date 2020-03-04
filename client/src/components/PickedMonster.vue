@@ -1,6 +1,6 @@
 <template lang="html">
   <div >
-    <img class="picked" v-if="pickedMonster.img" width="300" :src='require(`../assets/${pickedMonster.img}`)'/>
+    <img class="picked" v-if="pickedMonster.img" width="500" :src='require(`../assets/${pickedMonster.img}`)'/>
 
   </div>
 
@@ -21,7 +21,7 @@ export default {
 <style lang="css" scoped>
 
 .picked {
-  border-radius: 30px;
+  border-radius: 40px;
     float: right;
     padding-right: 50px;
     padding-top:  50px;
