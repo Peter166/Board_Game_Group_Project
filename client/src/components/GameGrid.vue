@@ -1,5 +1,6 @@
 <template lang="html">
   <div >
+    <!-- <p v-if="this.gameStarted == false"> hello </p> -->
     <button class="myButton" type="button" v-if="gameStarted !== true"  v-on:click="startGame">Start the Game!</button>
     <div class="start-game"  v-if="gameStarted">
 
@@ -390,12 +391,10 @@ body, html {
   width: 15%;
   float: left;
   background-image: url('https://ak9.picdn.net/shutterstock/videos/13298939/thumb/1.jpg');
-  /* border: solid;
+  border: solid;
   border-width: 6px;
   border-style: inset;
-  border-color: #8AC007; */
-  border-right:  20px solid transparent;
-  border-image: url("../assets/images/CelticBorderV.gif") 30 round;
+  border-color: black;
 }
 
 .middlepane {
@@ -412,6 +411,7 @@ body, html {
   padding-left: 3px;
   text-align: center;
   padding-bottom: 30px;
+  padding-top: 20px;
 
 }
 

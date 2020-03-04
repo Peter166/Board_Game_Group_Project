@@ -9,7 +9,7 @@
 import gameGrird from './components/GameGrid.vue'
 export default {
   name: 'app',
-  
+
   components: {
     "game-grid": gameGrird
   }
@@ -19,4 +19,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+body {
+  margin: 0;
+}
 </style>
