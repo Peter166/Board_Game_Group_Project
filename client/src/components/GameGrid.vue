@@ -37,7 +37,7 @@
             <img class="PickingCards" width="400" src="../assets/images/RandomCards-V3.png" />
 
             <ul style="list-style-type:none;">
-              <li><button id="pickButton" class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="pickMonster">Take a Monster</button></li>
+              <li><button id="pickButton" class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="pickMonster" align="left">Take a Monster</button></li>
               <li><button class="myButton" type="button" v-if="showPickedMonsterActionButtons" v-on:click="addToDungeon">Add Monster to Dungeon</button></li>
               <li><button class="myButton" type="button" v-if="showPickedMonsterActionButtons" v-on:click="discardMonster">Discard Monster (Sacrifice Hero Item)</button></li>
               <li><button class="myButton" type="button" v-if="this.pickedMonster == null" v-on:click="playerPass">Pass</button></li>
@@ -414,7 +414,9 @@ export default {
 
 <style lang="css" scoped>
 
-
+ul {
+  float: left;
+}
 body, html {
   width: 100%;
   height: 100%;
