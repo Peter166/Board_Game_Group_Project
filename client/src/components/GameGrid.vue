@@ -529,6 +529,8 @@ body, html {
 }
 .whiteText{
   color: white;
+  text-shadow: 3px 3px #ff0000;
+  font-size: 2em;
 }
 
 .startPage {
