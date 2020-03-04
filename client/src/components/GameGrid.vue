@@ -174,7 +174,7 @@ export default {
       }
     },
 
-    fightMonster(){
+    compareHeroWeaponsToMonsterWeakness(){
       if (this.weapons.includes(this.dungeonsc.weakness)){
         this.dungeonCards.splice(0, 1)
         this.dungeonsc = []
@@ -186,32 +186,64 @@ export default {
         const result = this.dungeonCards.splice(0, 1)
         this.dungeonsc = []
       }
+    },
 
-      if(this.totalHealth <= 0 && this.weapons.includes("Healing Potion") && this.potionUsed == false){
-        this.potionUsed = true
-        this.totalHealth=4;
-        let weapon = null
-        for (let hero of this.heroCards){
-          if (hero.type === 'Healing Potion'){
-            weapon = hero
-          }
+    healingPotion(){
+      this.potionUsed = true
+      this.totalHealth=4;
+      let weapon = null
+      for (let hero of this.heroCards){
+        if (hero.type === 'Healing Potion'){
+          weapon = hero
         }
-        const index = this.heroCards.indexOf(weapon)
-        this.heroCards.splice(index, 1)
-        this.fight()
+      }
+      const index = this.heroCards.indexOf(weapon)
+      this.heroCards.splice(index, 1)
+      this.fight()
+    },
+
+
+    playerIsDefeated(){  this.activePlayer.life -= 1
+      window.confirm(`${this.activePlayer.name} was defeated by Dungeon!!`);
+      this.dungeonCards = []
+      if(this.activePlayer.life == 0){
+        window.confirm(`${this.activePlayer.name} Was Killed!!`);
+        this.playersArray = []
+        this.resetGameLose()
+      }
+      this.resetGameLose()
+    },
+
+
+    fightMonster(){
+
+      this.compareHeroWeaponsToMonsterWeakness()
+      if(this.totalHealth <= 0 && this.weapons.includes("Healing Potion") && this.potionUsed == false){
+        this.healingPotion();
+        // this.potionUsed = true
+        // this.totalHealth=4;
+        // let weapon = null
+        // for (let hero of this.heroCards){
+        //   if (hero.type === 'Healing Potion'){
+        //     weapon = hero
+        //   }
+        // }
+        // const index = this.heroCards.indexOf(weapon)
+        // this.heroCards.splice(index, 1)
+        // this.fight()
       }
       else if(this.totalHealth <= 0){
-
-        this.activePlayer.life -= 1
-        window.confirm(`${this.activePlayer.name} was defeated by Dungeon!!`);
-        this.dungeonCards = []
-        if(this.activePlayer.life == 0){
-          window.confirm(`${this.activePlayer.name} Was Killed!!`);
-          this.playersArray = []
-          this.resetGameLose()
-
-        }
-        this.resetGameLose()
+        this.playerIsDefeated()
+        // this.activePlayer.life -= 1
+        // window.confirm(`${this.activePlayer.name} was defeated by Dungeon!!`);
+        // this.dungeonCards = []
+        // if(this.activePlayer.life == 0){
+        //   window.confirm(`${this.activePlayer.name} Was Killed!!`);
+        //   this.playersArray = []
+        //   this.resetGameLose()
+        //
+        // }
+        // this.resetGameLose()
 
 
 
@@ -274,8 +306,8 @@ export default {
     },
 
     dungeonIsEmptyAndTotalHealthIsValid(){
-     if (this.dungeonCards.length == 0 && this.totalHealth > 0){
-       console.log("In function");
+      if (this.dungeonCards.length == 0 && this.totalHealth > 0){
+        console.log("In function");
         this.dungeonsc = []
         const points= Number(this.activePlayer.win)
         const  totalpoints = points + 1

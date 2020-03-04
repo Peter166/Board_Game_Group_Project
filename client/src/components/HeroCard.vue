@@ -24,7 +24,7 @@ import GameService from '@/services/GameService.js'
 
 export default {
   name: 'hero-card',
-  props: ['hero', 'discardMonsterActivated'],
+  props: ['hero'],
   data(){
     return{
       discardMonsterActivated: false
