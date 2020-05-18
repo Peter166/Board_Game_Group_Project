@@ -14,7 +14,7 @@ All pieces of the game are stored and are added to the app from mongodb database
 ![](images/4.png)
 ### In this example Sandy was the last person and now needs to fight the dungeon. The first monster has a strength of 6 which means he will take 6 life from the hero. However the Vortal Axe that we have in the equipment can be used as one-time thing and kill the monster instantly (without taking any damage).
 ## After we will move to another Monster.
-![](images/5.png)
+![](images/6.png)
 #
 #
 ### The goal of the game is to destroy all monsters in the dungeon twice. However, if you will fail twice your out of the game as each player have only 2 lives!
